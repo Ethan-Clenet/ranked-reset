@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+import { useI18n } from "@/lib/i18n";
 import { GameWithSeasons, getSeasonStatus, getProgressPercent } from "@/lib/types";
 import Countdown from "./Countdown";
 import ProgressBar from "./ProgressBar";
@@ -14,6 +14,8 @@ interface GameCardProps {
 }
 
 export default function GameCard({ game, index }: GameCardProps) {
+  const { t, dateFnsLocale } = useI18n();
+
   const currentSeason = game.seasons.find((s) => {
     const status = getSeasonStatus(s.startDate, s.endDate);
     return status === "active";
@@ -70,9 +72,9 @@ export default function GameCard({ game, index }: GameCardProps) {
       {status === "active" && (
         <div className="mb-4">
           <div className="flex justify-between text-xs text-zinc-500 mb-1.5">
-            <span>{format(new Date(displaySeason.startDate), "d MMM", { locale: fr })}</span>
+            <span>{format(new Date(displaySeason.startDate), "d MMM", { locale: dateFnsLocale })}</span>
             <span>{progress}%</span>
-            <span>{format(new Date(displaySeason.endDate), "d MMM", { locale: fr })}</span>
+            <span>{format(new Date(displaySeason.endDate), "d MMM", { locale: dateFnsLocale })}</span>
           </div>
           <ProgressBar percent={progress} color={game.color} />
         </div>
@@ -83,14 +85,14 @@ export default function GameCard({ game, index }: GameCardProps) {
         {status === "active" && (
           <Countdown
             targetDate={displaySeason.endDate}
-            label="Reset dans"
+            label={t("card.resetIn")}
             color={game.color}
           />
         )}
         {status === "upcoming" && (
           <Countdown
             targetDate={displaySeason.startDate}
-            label="Début dans"
+            label={t("card.startsIn")}
             color={game.color}
           />
         )}
@@ -100,9 +102,9 @@ export default function GameCard({ game, index }: GameCardProps) {
       {currentSeason && nextSeason && (
         <div className="mt-4 pt-3 border-t border-zinc-800">
           <p className="text-xs text-zinc-500">
-            Prochaine saison : <span className="text-zinc-400">{nextSeason.name}</span>
+            {t("card.nextSeason")} : <span className="text-zinc-400">{nextSeason.name}</span>
             {" — "}
-            {format(new Date(nextSeason.startDate), "d MMMM yyyy", { locale: fr })}
+            {format(new Date(nextSeason.startDate), "d MMMM yyyy", { locale: dateFnsLocale })}
           </p>
         </div>
       )}

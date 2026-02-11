@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from "date-fns";
+import { useI18n } from "@/lib/i18n";
 
 interface CountdownProps {
   targetDate: string;
@@ -31,6 +32,7 @@ function getTimeLeft(target: Date): TimeLeft {
 export default function Countdown({ targetDate, label, color = "#6366f1" }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [mounted, setMounted] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     setMounted(true);
@@ -65,16 +67,16 @@ export default function Countdown({ targetDate, label, color = "#6366f1" }: Coun
     return (
       <div className="flex items-center gap-2">
         <span className="text-xs text-zinc-500 uppercase tracking-wider">{label}</span>
-        <span className="text-sm font-bold text-red-400">Terminé</span>
+        <span className="text-sm font-bold text-red-400">{t("card.finished")}</span>
       </div>
     );
   }
 
   const units = [
-    { value: timeLeft.days, label: "j" },
-    { value: timeLeft.hours, label: "h" },
-    { value: timeLeft.minutes, label: "m" },
-    { value: timeLeft.seconds, label: "s" },
+    { value: timeLeft.days, label: t("unit.d") },
+    { value: timeLeft.hours, label: t("unit.h") },
+    { value: timeLeft.minutes, label: t("unit.m") },
+    { value: timeLeft.seconds, label: t("unit.s") },
   ];
 
   return (

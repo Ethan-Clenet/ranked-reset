@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import DiscordBubble from "@/components/DiscordBubble";
+import { I18nProvider } from "@/lib/i18n";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
-        <Header />
-        <main>{children}</main>
-        <DiscordBubble />
+        <I18nProvider>
+          <Header />
+          <main>{children}</main>
+          <DiscordBubble />
+        </I18nProvider>
       </body>
     </html>
   );

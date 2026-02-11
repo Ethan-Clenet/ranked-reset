@@ -1,16 +1,9 @@
 "use client";
 
-import { useState } from "react";
-
-const LANGUAGES = [
-  { code: "fr", label: "FR", flag: "🇫🇷" },
-  { code: "en", label: "EN", flag: "🇬🇧" },
-  { code: "es", label: "ES", flag: "🇪🇸" },
-  { code: "de", label: "DE", flag: "🇩🇪" },
-];
+import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 export default function Header() {
-  const [lang, setLang] = useState("fr");
+  const { locale, setLocale, t } = useI18n();
 
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
@@ -33,15 +26,15 @@ export default function Header() {
           </div>
           <div>
             <h1 className="text-lg font-bold text-white tracking-tight">Ranked Reset</h1>
-            <p className="text-xs text-zinc-500">Toutes les dates de reset ranked</p>
+            <p className="text-xs text-zinc-500">{t("header.subtitle")}</p>
           </div>
         </div>
 
         {/* Language select */}
         <div className="relative">
           <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
+            value={locale}
+            onChange={(e) => setLocale(e.target.value as typeof locale)}
             className="appearance-none bg-zinc-900 border border-zinc-700 text-sm text-white rounded-lg px-3 py-1.5 pr-8 cursor-pointer hover:border-zinc-600 transition-colors focus:outline-none focus:ring-1 focus:ring-indigo-500"
           >
             {LANGUAGES.map((l) => (

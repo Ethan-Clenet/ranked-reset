@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 
 export default function DiscordBubble() {
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
@@ -25,8 +27,8 @@ export default function DiscordBubble() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Demande d&apos;ajout de jeu</p>
-                <p className="text-xs text-zinc-400">Contactez-moi sur Discord</p>
+                <p className="text-sm font-semibold text-white">{t("discord.title")}</p>
+                <p className="text-xs text-zinc-400">{t("discord.subtitle")}</p>
               </div>
             </div>
 
@@ -41,12 +43,12 @@ export default function DiscordBubble() {
                 }}
                 className="text-xs bg-[#5865F2] hover:bg-[#4752c4] text-white px-3 py-1 rounded-lg transition-colors"
               >
-                Copier
+                {t("discord.copy")}
               </button>
             </div>
 
             <p className="text-[11px] text-zinc-500 mt-3 text-center">
-              Envoyez un message pour demander l&apos;ajout d&apos;un jeu ou signaler une erreur.
+              {t("discord.hint")}
             </p>
           </motion.div>
         )}

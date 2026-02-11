@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { format, eachMonthOfInterval, isWithinInterval, startOfMonth, endOfMonth } from "date-fns";
-import { fr } from "date-fns/locale";
+import { useI18n } from "@/lib/i18n";
 import { GameWithSeasons, getSeasonStatus } from "@/lib/types";
 
 interface TimelineProps {
@@ -10,6 +10,8 @@ interface TimelineProps {
 }
 
 export default function Timeline({ games }: TimelineProps) {
+  const { t, dateFnsLocale } = useI18n();
+
   // Calculate timeline range: 2 months before now to 6 months after
   const now = new Date();
   const timelineStart = new Date(now.getFullYear(), now.getMonth() - 2, 1);
@@ -41,7 +43,7 @@ export default function Timeline({ games }: TimelineProps) {
           This ensures month headers and season bars are perfectly aligned.
         */}
 
-        {/* "Aujourd'hui" label row */}
+        {/* "Today" label row */}
         <div className="flex gap-4 mb-1">
           <div className="w-36 shrink-0" />
           <div className="relative flex-1 h-4">
@@ -49,7 +51,9 @@ export default function Timeline({ games }: TimelineProps) {
               className="absolute z-20"
               style={{ left: `${todayLeft}%`, transform: "translateX(-50%)" }}
             >
-              <span className="text-[10px] font-medium text-red-400 whitespace-nowrap">Aujourd&apos;hui</span>
+              <span className="text-[10px] font-medium text-red-400 whitespace-nowrap">
+                {t("timeline.today")}
+              </span>
             </div>
           </div>
         </div>
@@ -73,7 +77,7 @@ export default function Timeline({ games }: TimelineProps) {
                   style={{ left: `${left}%` }}
                 >
                   <span className={isCurrent ? "text-white font-semibold" : "text-zinc-500"}>
-                    {format(month, "MMM yyyy", { locale: fr })}
+                    {format(month, "MMM yyyy", { locale: dateFnsLocale })}
                   </span>
                 </div>
               );
@@ -138,7 +142,7 @@ export default function Timeline({ games }: TimelineProps) {
                           transformOrigin: "left",
                           border: status === "active" ? `1px solid ${game.color}` : "none",
                         }}
-                        title={`${season.name}: ${format(start, "d MMM yyyy", { locale: fr })} → ${format(end, "d MMM yyyy", { locale: fr })}`}
+                        title={`${season.name}: ${format(start, "d MMM yyyy", { locale: dateFnsLocale })} → ${format(end, "d MMM yyyy", { locale: dateFnsLocale })}`}
                       >
                         <span className="truncate px-1">{season.name}</span>
                       </motion.div>
