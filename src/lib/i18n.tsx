@@ -51,6 +51,11 @@ const translations: Record<Locale, Record<string, string>> = {
     // Timeline
     "timeline.today": "Aujourd'hui",
 
+    // Rank
+    "rank.setRank": "Mon rank",
+    "rank.clear": "Supprimer mon rank",
+    "rank.back": "Retour",
+
     // DiscordBubble
     "discord.title": "Demande d'ajout de jeu",
     "discord.subtitle": "Contactez-moi sur Discord",
@@ -93,6 +98,11 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Timeline
     "timeline.today": "Today",
+
+    // Rank
+    "rank.setRank": "My rank",
+    "rank.clear": "Clear my rank",
+    "rank.back": "Back",
 
     // DiscordBubble
     "discord.title": "Request a game",
@@ -137,6 +147,11 @@ const translations: Record<Locale, Record<string, string>> = {
     // Timeline
     "timeline.today": "Hoy",
 
+    // Rank
+    "rank.setRank": "Mi rango",
+    "rank.clear": "Eliminar mi rango",
+    "rank.back": "Volver",
+
     // DiscordBubble
     "discord.title": "Solicitud de juego",
     "discord.subtitle": "Contáctame en Discord",
@@ -179,6 +194,11 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // Timeline
     "timeline.today": "Heute",
+
+    // Rank
+    "rank.setRank": "Mein Rang",
+    "rank.clear": "Rang löschen",
+    "rank.back": "Zurück",
 
     // DiscordBubble
     "discord.title": "Spielanfrage",

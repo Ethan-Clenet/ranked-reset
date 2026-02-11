@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { useI18n } from "@/lib/i18n";
 import { GameWithSeasons, getSeasonStatus, getProgressPercent } from "@/lib/types";
+import { getRankDef } from "@/lib/ranks";
+import { useRank } from "@/lib/useRank";
 import Countdown from "./Countdown";
 import ProgressBar from "./ProgressBar";
 import StatusBadge from "./StatusBadge";
+import RankSelector from "./RankSelector";
 
 interface GameCardProps {
   game: GameWithSeasons;
@@ -15,6 +18,8 @@ interface GameCardProps {
 
 export default function GameCard({ game, index }: GameCardProps) {
   const { t, dateFnsLocale } = useI18n();
+  const rankDef = getRankDef(game.slug);
+  const { rank, setRank, loaded } = useRank(game.slug);
 
   const currentSeason = game.seasons.find((s) => {
     const status = getSeasonStatus(s.startDate, s.endDate);
@@ -65,7 +70,18 @@ export default function GameCard({ game, index }: GameCardProps) {
             <p className="text-sm text-zinc-400">{displaySeason.name}</p>
           </div>
         </div>
-        <StatusBadge status={status} />
+        <div className="flex flex-col items-end gap-1.5">
+          <StatusBadge status={status} />
+          {/* Rank selector (only for games with rank definitions) */}
+          {rankDef && loaded && (
+            <RankSelector
+              rankDef={rankDef}
+              value={rank}
+              onChange={setRank}
+              color={game.color}
+            />
+          )}
+        </div>
       </div>
 
       {/* Progress */}
