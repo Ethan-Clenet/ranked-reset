@@ -87,10 +87,19 @@ export default function GameCard({ game, index }: GameCardProps) {
       {/* Progress */}
       {status === "active" && (
         <div className="mb-4">
-          <div className="flex justify-between text-xs text-zinc-500 mb-1.5">
-            <span>{format(new Date(displaySeason.startDate), "d MMM", { locale: dateFnsLocale })}</span>
-            <span>{progress}%</span>
-            <span>{format(new Date(displaySeason.endDate), "d MMM", { locale: dateFnsLocale })}</span>
+          <div className="flex items-baseline justify-between mb-2">
+            <span className="text-xs text-zinc-500">
+              {format(new Date(displaySeason.startDate), "d MMM", { locale: dateFnsLocale })}
+            </span>
+            <span
+              className="text-lg font-bold tabular-nums"
+              style={{ color: game.color }}
+            >
+              {progress}%
+            </span>
+            <span className="text-xs text-zinc-500">
+              {format(new Date(displaySeason.endDate), "d MMM", { locale: dateFnsLocale })}
+            </span>
           </div>
           <ProgressBar percent={progress} color={game.color} />
         </div>
