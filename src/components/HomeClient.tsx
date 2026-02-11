@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameWithSeasons } from "@/lib/types";
 import GameCard from "./GameCard";
 import Timeline from "./Timeline";
@@ -10,6 +10,11 @@ type ViewMode = "grid" | "timeline";
 
 export default function HomeClient({ games }: { games: GameWithSeasons[] }) {
   const [view, setView] = useState<ViewMode>("grid");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const activeGames = games.filter((g) => g.seasons.length > 0);
 
@@ -74,32 +79,43 @@ export default function HomeClient({ games }: { games: GameWithSeasons[] }) {
         </div>
       </div>
 
-      {/* Content */}
-      <AnimatePresence mode="wait">
-        {view === "grid" ? (
-          <motion.div
-            key="grid"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-          >
-            {activeGames.map((game, i) => (
-              <GameCard key={game.id} game={game} index={i} />
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="timeline"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 relative"
-          >
-            <Timeline games={activeGames} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Content — render only after mount to avoid hydration mismatch from Date.now() */}
+      {mounted ? (
+        <AnimatePresence mode="wait">
+          {view === "grid" ? (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
+              {activeGames.map((game, i) => (
+                <GameCard key={game.id} game={game} index={i} />
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="timeline"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 relative"
+            >
+              <Timeline games={activeGames} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {activeGames.map((game) => (
+            <div
+              key={game.id}
+              className="h-48 rounded-2xl border border-zinc-800 bg-zinc-900/60 animate-pulse"
+            />
+          ))}
+        </div>
+      )}
 
       {/* Empty state */}
       {activeGames.length === 0 && (

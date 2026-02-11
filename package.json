@@ -11,7 +11,8 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "sync:valorant": "npx tsx prisma/sync-valorant.ts"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -20,6 +21,7 @@
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.2.4",
     "framer-motion": "^12.34.0",
     "next": "16.1.6",
     "pg": "^8.18.0",

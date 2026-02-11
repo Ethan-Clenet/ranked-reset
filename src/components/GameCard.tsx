@@ -49,10 +49,14 @@ export default function GameCard({ game, index }: GameCardProps) {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-xl overflow-hidden"
             style={{ backgroundColor: `${game.color}20` }}
           >
-            {game.icon || "🎮"}
+            {game.icon?.startsWith("/") ? (
+              <img src={game.icon} alt={game.name} className="w-full h-full object-cover" />
+            ) : (
+              game.icon || "🎮"
+            )}
           </div>
           <div>
             <h3 className="font-semibold text-white text-lg">{game.name}</h3>

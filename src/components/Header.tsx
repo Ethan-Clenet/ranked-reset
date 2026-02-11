@@ -1,4 +1,17 @@
+"use client";
+
+import { useState } from "react";
+
+const LANGUAGES = [
+  { code: "fr", label: "FR", flag: "🇫🇷" },
+  { code: "en", label: "EN", flag: "🇬🇧" },
+  { code: "es", label: "ES", flag: "🇪🇸" },
+  { code: "de", label: "DE", flag: "🇩🇪" },
+];
+
 export default function Header() {
+  const [lang, setLang] = useState("fr");
+
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -24,14 +37,29 @@ export default function Header() {
           </div>
         </div>
 
-        <nav className="flex items-center gap-1">
-          <button className="px-3 py-1.5 text-sm text-white bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
-            Grille
-          </button>
-          <button className="px-3 py-1.5 text-sm text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors">
-            Timeline
-          </button>
-        </nav>
+        {/* Language select */}
+        <div className="relative">
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value)}
+            className="appearance-none bg-zinc-900 border border-zinc-700 text-sm text-white rounded-lg px-3 py-1.5 pr-8 cursor-pointer hover:border-zinc-600 transition-colors focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          >
+            {LANGUAGES.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.flag} {l.label}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </div>
       </div>
     </header>
   );
