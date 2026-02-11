@@ -198,6 +198,32 @@ async function main() {
     ],
   });
 
+  // --- Marvel Rivals ---
+  const mr = await prisma.game.create({
+    data: {
+      name: "Marvel Rivals",
+      slug: "marvel-rivals",
+      icon: "/icons/marvel-rivals.png",
+      color: "#ED1D24",
+    },
+  });
+
+  await prisma.season.createMany({
+    data: [
+      { name: "S0 — Doom's Rise", startDate: new Date("2024-12-06"), endDate: new Date("2025-01-10"), isCurrent: false, gameId: mr.id },
+      { name: "S1 — Eternal Night Falls", startDate: new Date("2025-01-11"), endDate: new Date("2025-04-11"), isCurrent: false, gameId: mr.id },
+      { name: "S2 — Hellfire Gala", startDate: new Date("2025-04-11"), endDate: new Date("2025-07-11"), isCurrent: false, gameId: mr.id },
+      { name: "S3 — The Abyss Awakens", startDate: new Date("2025-07-11"), endDate: new Date("2025-08-08"), isCurrent: false, gameId: mr.id },
+      { name: "S3.5 — The Abyss Awakens", startDate: new Date("2025-08-08"), endDate: new Date("2025-09-12"), isCurrent: false, gameId: mr.id },
+      { name: "S4 — Heart of the Dragon", startDate: new Date("2025-09-12"), endDate: new Date("2025-10-10"), isCurrent: false, gameId: mr.id },
+      { name: "S4.5 — Heart of the Dragon", startDate: new Date("2025-10-10"), endDate: new Date("2025-11-14"), isCurrent: false, gameId: mr.id },
+      { name: "S5 — Love is a Battlefield", startDate: new Date("2025-11-14"), endDate: new Date("2025-12-12"), isCurrent: false, gameId: mr.id },
+      { name: "S5.5 — Love is a Battlefield", startDate: new Date("2025-12-12"), endDate: new Date("2026-01-16"), isCurrent: false, gameId: mr.id },
+      { name: "S6 — Night at the Museum", startDate: new Date("2026-01-16"), endDate: new Date("2026-02-13"), isCurrent: true, gameId: mr.id },
+      { name: "S6.5 — Night at the Museum", startDate: new Date("2026-02-13"), endDate: new Date("2026-03-20"), isCurrent: false, gameId: mr.id },
+    ],
+  });
+
   console.log("Seed completed successfully!");
   console.log(`Created ${await prisma.game.count()} games`);
   console.log(`Created ${await prisma.season.count()} seasons`);
