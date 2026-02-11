@@ -164,7 +164,7 @@ async function main() {
     data: {
       name: "Teamfight Tactics",
       slug: "tft",
-      icon: "/icons/tft.svg",
+      icon: "/icons/tft.png",
       color: "#1FBEAB",
     },
   });
@@ -183,7 +183,7 @@ async function main() {
     data: {
       name: "Hearthstone",
       slug: "hearthstone",
-      icon: "/icons/hearthstone.svg",
+      icon: "/icons/hearthstone.png",
       color: "#4FC3F7",
     },
   });
