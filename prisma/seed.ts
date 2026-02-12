@@ -83,7 +83,7 @@ async function main() {
   // --- Overwatch 2 ---
   const ow2 = await prisma.game.create({
     data: {
-      name: "Overwatch 2",
+      name: "Overwatch",
       slug: "overwatch-2",
       icon: "/icons/overwatch-2.png",
       color: "#F99E1A",
@@ -97,7 +97,7 @@ async function main() {
       { name: "Saison 18", startDate: new Date("2025-08-26"), endDate: new Date("2025-10-14"), isCurrent: false, gameId: ow2.id },
       { name: "Saison 19", startDate: new Date("2025-10-14"), endDate: new Date("2025-12-09"), isCurrent: false, gameId: ow2.id },
       { name: "Saison 20 — Vendetta", startDate: new Date("2025-12-09"), endDate: new Date("2026-02-10"), isCurrent: false, gameId: ow2.id },
-      { name: "Saison 21", startDate: new Date("2026-02-10"), endDate: new Date("2026-04-14"), isCurrent: true, gameId: ow2.id },
+      { name: "Saison 1", startDate: new Date("2026-02-10"), endDate: new Date("2026-04-14"), isCurrent: true, gameId: ow2.id },
     ],
   });
 

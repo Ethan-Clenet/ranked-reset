@@ -5,38 +5,72 @@ import { StoredRank } from "./ranks";
 
 const STORAGE_PREFIX = "ranked_reset_rank_";
 
-export function useRank(gameSlug: string) {
-  const key = `${STORAGE_PREFIX}${gameSlug}`;
+interface UseRankOptions {
+  gameSlug: string;
+  gameId: number;
+  userId?: string | null; // from session — if set, use API
+}
+
+export function useRank({ gameSlug, gameId, userId }: UseRankOptions) {
+  const localKey = `${STORAGE_PREFIX}${gameSlug}`;
   const [rank, setRankState] = useState<StoredRank | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  // Read from localStorage on mount
+  // Load rank on mount
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        setRankState(JSON.parse(raw) as StoredRank);
+    if (userId) {
+      // Fetch from API
+      fetch("/api/ranks")
+        .then((r) => r.json())
+        .then((data) => {
+          const r = data.ranks?.[gameId];
+          if (r) setRankState(r);
+          setLoaded(true);
+        })
+        .catch(() => setLoaded(true));
+    } else {
+      // Fallback to localStorage
+      try {
+        const raw = localStorage.getItem(localKey);
+        if (raw) setRankState(JSON.parse(raw) as StoredRank);
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore corrupted data
+      setLoaded(true);
     }
-    setLoaded(true);
-  }, [key]);
+  }, [userId, gameId, localKey]);
 
   const setRank = useCallback(
     (value: StoredRank | null) => {
       setRankState(value);
-      try {
-        if (value) {
-          localStorage.setItem(key, JSON.stringify(value));
-        } else {
-          localStorage.removeItem(key);
+
+      if (userId) {
+        // Save to API
+        fetch("/api/ranks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            gameId,
+            tierId: value?.tierId ?? null,
+            division: value?.division,
+          }),
+        }).catch(() => {
+          // silent fail
+        });
+      } else {
+        // Fallback to localStorage
+        try {
+          if (value) {
+            localStorage.setItem(localKey, JSON.stringify(value));
+          } else {
+            localStorage.removeItem(localKey);
+          }
+        } catch {
+          // storage full
         }
-      } catch {
-        // storage full or blocked
       }
     },
-    [key],
+    [userId, gameId, localKey],
   );
 
   return { rank, setRank, loaded };

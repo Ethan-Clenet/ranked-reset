@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useI18n } from "@/lib/i18n";
 import { GameWithSeasons, getSeasonStatus, getProgressPercent } from "@/lib/types";
 import { getRankDef } from "@/lib/ranks";
@@ -18,8 +19,13 @@ interface GameCardProps {
 
 export default function GameCard({ game, index }: GameCardProps) {
   const { t, dateFnsLocale } = useI18n();
+  const { data: session } = useSession();
   const rankDef = getRankDef(game.slug);
-  const { rank, setRank, loaded } = useRank(game.slug);
+  const { rank, setRank, loaded } = useRank({
+    gameSlug: game.slug,
+    gameId: game.id,
+    userId: session?.user?.id,
+  });
 
   const currentSeason = game.seasons.find((s) => {
     const status = getSeasonStatus(s.startDate, s.endDate);

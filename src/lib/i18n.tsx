@@ -17,6 +17,10 @@ export type Locale = (typeof LANGUAGES)[number]["code"];
 
 const translations: Record<Locale, Record<string, string>> = {
   fr: {
+    // Auth
+    "auth.login": "Connexion",
+    "auth.logout": "Déconnexion",
+
     // Header
     "header.subtitle": "Toutes les dates de reset ranked",
 
@@ -65,6 +69,10 @@ const translations: Record<Locale, Record<string, string>> = {
   },
 
   en: {
+    // Auth
+    "auth.login": "Sign in",
+    "auth.logout": "Sign out",
+
     // Header
     "header.subtitle": "All ranked reset dates",
 
@@ -113,6 +121,10 @@ const translations: Record<Locale, Record<string, string>> = {
   },
 
   es: {
+    // Auth
+    "auth.login": "Iniciar sesión",
+    "auth.logout": "Cerrar sesión",
+
     // Header
     "header.subtitle": "Todas las fechas de reset ranked",
 
@@ -161,6 +173,10 @@ const translations: Record<Locale, Record<string, string>> = {
   },
 
   de: {
+    // Auth
+    "auth.login": "Anmelden",
+    "auth.logout": "Abmelden",
+
     // Header
     "header.subtitle": "Alle Ranked-Reset-Daten",
 
