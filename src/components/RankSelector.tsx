@@ -68,7 +68,7 @@ export default function RankSelector({ rankDef, value, onChange, color }: RankSe
           setOpen(!open);
           setSelectedTier(null);
         }}
-        className="flex items-center gap-1.5 text-xs rounded-lg px-2.5 py-1 border transition-all hover:brightness-110"
+        className="flex items-center gap-1.5 text-xs rounded-lg px-2.5 py-1 border transition-all hover:brightness-110 whitespace-nowrap"
         style={{
           backgroundColor: currentTier ? `${currentTier.color}20` : `${color}10`,
           borderColor: currentTier ? `${currentTier.color}50` : `${color}30`,
@@ -125,12 +125,15 @@ export default function RankSelector({ rankDef, value, onChange, color }: RankSe
                     </svg>
                     {t("rank.back")}
                   </button>
-                  {/* Divisions IV → I */}
+                  {/* Divisions (order depends on game: desc = worst first, asc = best first) */}
                   {(() => {
                     const tier = rankDef.tiers.find((t) => t.id === selectedTier);
                     if (!tier || !tier.divisions) return null;
-                    const divs = Array.from({ length: tier.divisions }, (_, i) => i + 1).reverse();
-                    const romans = ["I", "II", "III", "IV"];
+                    const raw = Array.from({ length: tier.divisions }, (_, i) => i + 1);
+                    const divs = rankDef.divisionOrder === "asc" ? raw : [...raw].reverse();
+                    const format = rankDef.divisionFormat ?? "roman";
+                    const divLabel = (d: number) =>
+                      format === "numeric" ? String(d) : ["I", "II", "III", "IV", "V"][d - 1] ?? "";
                     return divs.map((div) => {
                       const isSelected = value?.tierId === tier.id && value?.division === div;
                       return (
@@ -146,7 +149,7 @@ export default function RankSelector({ rankDef, value, onChange, color }: RankSe
                             style={{ backgroundColor: tier.color }}
                           />
                           <span className="text-white font-medium">
-                            {tier.label} {romans[div - 1]}
+                            {tier.label} {divLabel(div)}
                           </span>
                           {isSelected && (
                             <svg className="w-3.5 h-3.5 ml-auto text-emerald-400" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
