@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GameWithSeasons } from "@/lib/types";
 import { useI18n } from "@/lib/i18n";
+import { useFavorites } from "@/lib/useFavorites";
 import GameCard from "./GameCard";
 import Timeline from "./Timeline";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,12 +14,23 @@ export default function HomeClient({ games }: { games: GameWithSeasons[] }) {
   const [view, setView] = useState<ViewMode>("grid");
   const [mounted, setMounted] = useState(false);
   const { t } = useI18n();
+  const { favoriteGameIds, isFavorite, toggle } = useFavorites();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const activeGames = games.filter((g) => g.seasons.length > 0);
+  const sortedGames = useMemo(
+    () =>
+      [...activeGames].sort((a, b) => {
+        const aFav = favoriteGameIds.has(a.id);
+        const bFav = favoriteGameIds.has(b.id);
+        if (aFav === bFav) return 0;
+        return aFav ? -1 : 1;
+      }),
+    [activeGames, favoriteGameIds],
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
@@ -92,8 +104,14 @@ export default function HomeClient({ games }: { games: GameWithSeasons[] }) {
               exit={{ opacity: 0 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
             >
-              {activeGames.map((game, i) => (
-                <GameCard key={game.id} game={game} index={i} />
+              {sortedGames.map((game, i) => (
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  index={i}
+                  isFavorite={isFavorite(game.id)}
+                  onToggleFavorite={() => toggle(game.id)}
+                />
               ))}
             </motion.div>
           ) : (

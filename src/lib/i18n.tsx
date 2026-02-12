@@ -40,6 +40,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "card.startsIn": "Début dans",
     "card.nextSeason": "Prochaine saison",
     "card.finished": "Terminé",
+    "card.addToFavorites": "Ajouter aux favoris",
+    "card.removeFromFavorites": "Retirer des favoris",
 
     // StatusBadge
     "status.active": "En cours",
@@ -92,6 +94,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "card.startsIn": "Starts in",
     "card.nextSeason": "Next season",
     "card.finished": "Finished",
+    "card.addToFavorites": "Add to favorites",
+    "card.removeFromFavorites": "Remove from favorites",
 
     // StatusBadge
     "status.active": "Active",
@@ -144,6 +148,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "card.startsIn": "Empieza en",
     "card.nextSeason": "Próxima temporada",
     "card.finished": "Terminado",
+    "card.addToFavorites": "Añadir a favoritos",
+    "card.removeFromFavorites": "Quitar de favoritos",
 
     // StatusBadge
     "status.active": "En curso",
@@ -196,6 +202,8 @@ const translations: Record<Locale, Record<string, string>> = {
     "card.startsIn": "Start in",
     "card.nextSeason": "Nächste Saison",
     "card.finished": "Beendet",
+    "card.addToFavorites": "Zu Favoriten hinzufügen",
+    "card.removeFromFavorites": "Aus Favoriten entfernen",
 
     // StatusBadge
     "status.active": "Aktiv",

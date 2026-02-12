@@ -18,6 +18,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   ranks         UserRank[]
+  favorites     UserFavorite[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
@@ -60,15 +61,28 @@ model VerificationToken {
 // ─── App models ─────────────────────────────────────────────────────────────
 
 model Game {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  slug      String     @unique
-  icon      String     @default("")
-  color     String     @default("#6366f1")
-  seasons   Season[]
-  ranks     UserRank[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          Int             @id @default(autoincrement())
+  name        String          @unique
+  slug        String          @unique
+  icon        String          @default("")
+  color       String          @default("#6366f1")
+  seasons     Season[]
+  ranks       UserRank[]
+  favorites   UserFavorite[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model UserFavorite {
+  id        String   @id @default(cuid())
+  userId    String
+  gameId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, gameId])
+  @@index([userId])
 }
 
 model Season {
